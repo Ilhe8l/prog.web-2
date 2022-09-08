@@ -1,6 +1,6 @@
 const tamanhocasas = 40;
 let peçaId = 0;
-document.body.append(criarTabuleiro());
+document.body.append(criartabuleiro());
 
 function criartabuleiro() {
     const tamanho = 8;
