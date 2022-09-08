@@ -1,4 +1,4 @@
-const tamanhocasas = 50;
+const tamanhocasas = 40;
 let peçaId = 0;
 document.body.append(criartabuleiro());
 
