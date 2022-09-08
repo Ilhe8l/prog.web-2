@@ -1,43 +1,42 @@
-const tamanhoCelula = 40;
-let pecaId = 0;
-document.body.append(criaTabuleiro());
+const tamanhocasas = 40;
+let peçaId = 0;
+document.body.append(criartabuleiro());
 
-function criaTabuleiro() {
+function criartabuleiro() {
     const tamanho = 8;
     let tabela = document.createElement('table');
 
     tabela.style.borderStyle = 'solid';
     tabela.style.borderSpacing = 0;
     tabela.style.margin = 'auto';
-
+    
     for (let i = 0; i < tamanho; i++) {
         let linha = document.createElement('tr');
         tabela.append(linha);
         for (let j = 0; j < tamanho; j++) {
-            let celula = document.createElement('td');
-            linha.append(celula);
-
-            celula.style.width = `${tamanhoCelula}px`;
-            celula.style.height = `${tamanhoCelula}px`;
+            let casa = document.createElement('td');
+            linha.append(casa);
+        
+            casa.style.width = `${tamanhocasas}px`;
+            casa.style.height = `${tamanhocasas}px`;
             if (i % 2 == j % 2) {
-                celula.style.backgroundColor = 'black';
+                casa.style.backgroundColor = 'black';
                 if (i * 8 + j <= 24) {
-                    celula.append(criaPeca('black'));
+                    casa.append(criarpeça('black'));
                 } else if (i * 8 + j >= 40) {
-                    celula.append(criaPeca('red'));
+                    casa.append(criarpeça('red'));
                 }
             } else {
-                celula.style.backgroundColor = 'white';
+                casa.style.backgroundColor = 'white';
             }
         }
     };
     return tabela;
-}
-
-function criaPeca(cor) {
+    
+function criarpeça(cor) {
     let imagem = document.createElement('img');
     imagem.setAttribute('src', `img/${cor}.png`);
-    imagem.setAttribute('width', `${tamanhoCelula-4}px`);
-    imagem.setAttribute('height', `${tamanhoCelula-4}px`);
+    imagem.setAttribute('width', `${tamanhocasas-4}px`);
+    imagem.setAttribute('height', `${tamanhocasas-4}px`);
     return imagem;
 }
