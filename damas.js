@@ -22,9 +22,9 @@ function criartabuleiro() {
             if (i % 2 == j % 2) {
                 casa.style.backgroundColor = 'black';
                 if (i * 8 + j <= 24) {
-                    casa.append(criapeça('black'));
+                    casa.append(criarpeça('black'));
                 } else if (i * 8 + j >= 40) {
-                    casa.append(criapeça('red'));
+                    casa.append(criarpeça('red'));
                 }
             } else {
                 casa.style.backgroundColor = 'white';
