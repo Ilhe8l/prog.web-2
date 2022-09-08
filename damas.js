@@ -1,5 +1,5 @@
 const tamanhocasas = 40;
-let peçaId = 0;
+let pecaId = 0;
 document.body.append(criartabuleiro());
 
 function criartabuleiro() {
@@ -22,9 +22,9 @@ function criartabuleiro() {
             if (i % 2 == j % 2) {
                 casa.style.backgroundColor = 'black';
                 if (i * 8 + j <= 24) {
-                    casa.append(criarpeça('black'));
+                    casa.append(criarpeca('black'));
                 } else if (i * 8 + j >= 40) {
-                    casa.append(criarpeça('red'));
+                    casa.append(criarpeca('red'));
                 }
             } else {
                 casa.style.backgroundColor = 'white';
@@ -33,7 +33,7 @@ function criartabuleiro() {
     };
     return tabela;
     
-function criarpeça(cor) {
+function criarpeca(cor) {
     let imagem = document.createElement('img');
     imagem.setAttribute('src', `img/${cor}.png`);
     imagem.setAttribute('width', `${tamanhocasas-4}px`);
