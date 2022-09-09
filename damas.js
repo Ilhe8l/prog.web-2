@@ -90,5 +90,4 @@ function drop(){
 dragstart();
 dragend();
 dragover();
-drop();();;;;agover();
-drop();over();
+drop();
