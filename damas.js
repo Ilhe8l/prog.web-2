@@ -1,5 +1,8 @@
 const tamanhocasa = 40;
-let pecaId = 0;
+let pecaid = 0;
+let localat = 80;
+let localfut = 81;
+let classe = '';
 document.body.append(criartabu());
 
 function criartabu() {
@@ -15,29 +18,77 @@ function criartabu() {
         tabela.append(linha);
         for (let j = 0; j < tamanho; j++) {
             let casa = document.createElement('td');
+			casa.setAttribute('id',i + 99);
             linha.append(casa);
-
             casa.style.width = `${tamanhocasa}px`;
             casa.style.height = `${tamanhocasa}px`;
+			pecaid += 1;
             if (i % 2 == j % 2) {
                 casa.style.backgroundColor = 'black';
+				casa.setAttribute("class","droptarget");
                 if (i * 8 + j <= 24) {
-                    casa.append(criarpeca('black'));
+                    casa.append(criaPeca('black',pecaid));
                 } else if (i * 8 + j >= 40) {
-                    casa.append(criarpeca('red'));
+                    casa.append(criaPeca('red',pecaid));
                 }
             } else {
                 casa.style.backgroundColor = 'white';
             }
         }
     };
-    return tabela;
+	
+    return tabela;	
 }
 
-function criarpeca(cor) {
-    let imagem = document.createElement('img');
-    imagem.setAttribute('src', `img/${cor}.png`);
-    imagem.setAttribute('width', `${tamanhocasa-4}px`);
-    imagem.setAttribute('height', `${tamanhocasa-4}px`);
+function criarpeca(cor,ide) {
+		let imagem = document.createElement('img');
+		imagem.setAttribute('src', `img/${cor}.png`);
+		imagem.setAttribute('width', `${tamanhocasa-4}px`);
+		imagem.setAttribute('height', `${tamanhocasa-4}px`);
+		imagem.setAttribute('draggable','true');
+		imagem.setAttribute('id', ide);
+		imagem.setAttribute('class', cor);
+		
     return imagem;
 }
+
+function dragstart(){
+	document.addEventListener("dragstart", function(event) {
+	  event.dataTransfer.setData("Text", event.target.id);
+	  localat = event.path[1].id;
+	  classe = (event.path[0].className);
+	});
+}
+
+function dragend() {
+	document.addEventListener("dragend", function(event) {
+	});
+}
+
+function dragover() {
+	document.addEventListener("dragover", function(event) {
+	  event.preventDefault();
+	});
+}
+
+function drop(){
+	document.addEventListener("drop", function(event) {
+	event.preventDefault();
+	if ( event.target.className == "droptarget") {
+		const data = event.dataTransfer.getData("Text");
+		let c = event.path[0];
+		let t = c.childElementCount;
+		localfut = event.target.id;
+		if(t == '0' && localat != localfut){
+			if(classe == 'red' && localat > localfut && localat - localfut == 1|| classe == 'black' && localat < localfut && localfut - localat == 1) {
+				event.target.appendChild(document.getElementById(data));
+			}
+		}
+	}
+	});
+}
+dragstart();
+dragend();
+dragover();
+drop();();;;;agover();
+drop();over();
