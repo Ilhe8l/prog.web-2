@@ -27,9 +27,9 @@ function criartabu() {
                 casa.style.backgroundColor = 'black';
 				casa.setAttribute("class","droptarget");
                 if (i * 8 + j <= 24) {
-                    casa.append(criaPeca('black',pecaid));
+                    casa.append(criarpeca('black',pecaid));
                 } else if (i * 8 + j >= 40) {
-                    casa.append(criaPeca('red',pecaid));
+                    casa.append(criarpeca('red',pecaid));
                 }
             } else {
                 casa.style.backgroundColor = 'white';
