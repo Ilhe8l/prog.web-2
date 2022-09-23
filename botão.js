@@ -4,26 +4,26 @@ let tamanho = 6;
 for(let i = 1; i < 7; i++) {
     titulo = document.querySelector(`h${i}`)
     if(titulo != null){
-        criarbotao()
+        criabotao()
         break
     }
 }
 
-function criarbotao() {
-    const botao = document.createElement('div')
+function criabotao() {
+    const botoes = document.createElement('div')
 
     const btn = document.createElement('button')
     btn.innerText = "+"
     btn.id = 'btn1'
     
-    const botao2 = document.createElement('button')
+    const btn2 = document.createElement('button')
     btn2.innerText = "-"
     btn2.id = 'btn2'
 
-    botao.append(btn)
-    botao.append(btn2)
+    botoes.append(btn)
+    botoes.append(btn2)
 
-    titulo.parentNode.insertBefore(botao, titulo.nextSibling)
+    titulo.parentNode.insertBefore(botoes, titulo.nextSibling)
     event()
 }
 function event(){
