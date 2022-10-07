@@ -1,11 +1,13 @@
-const tamanhocasa = 40;
-let pecaid = 0;
-let localat = 80;
-let localfut = 81;
-let classe = '';
-document.body.append(criartabu());
+const tamanhoCelula = 40;
+let pecaId = 0;
+let localAtual = 80;  
+let localFuturo = 81;
+let classe ='';
+let localDecaptura = '';    
+let jogada = 0;
+document.body.append(criaTabuleiro());
 
-function criartabu() {
+function criaTabuleiro() {
     const tamanho = 8;
     let tabela = document.createElement('table');
 
@@ -17,22 +19,23 @@ function criartabu() {
         let linha = document.createElement('tr');
         tabela.append(linha);
         for (let j = 0; j < tamanho; j++) {
-            let casa = document.createElement('td');
-			casa.setAttribute('id',i + 99);
-            linha.append(casa);
-            casa.style.width = `${tamanhocasa}px`;
-            casa.style.height = `${tamanhocasa}px`;
-			pecaid += 1;
+            let celula = document.createElement('td');
+			celula.setAttribute('id',`${j}` + '-' + `${i}`);
+            linha.append(celula);
+            celula.style.width = `${tamanhoCelula}px`;
+            celula.style.height = `${tamanhoCelula}px`;
+			pecaId += 1;
+	
             if (i % 2 == j % 2) {
-                casa.style.backgroundColor = 'black';
-				casa.setAttribute("class","droptarget");
+                celula.style.backgroundColor = 'black';
+				celula.setAttribute("class","droptarget");
                 if (i * 8 + j <= 24) {
-                    casa.append(criarpeca('black',pecaid));
+                    celula.append(criaPeca('black',pecaId));
                 } else if (i * 8 + j >= 40) {
-                    casa.append(criarpeca('red',pecaid));
+                    celula.append(criaPeca('red',pecaId));
                 }
             } else {
-                casa.style.backgroundColor = 'white';
+                celula.style.backgroundColor = 'white';
             }
         }
     };
@@ -40,11 +43,11 @@ function criartabu() {
     return tabela;	
 }
 
-function criarpeca(cor,ide) {
+function criaPeca(cor,ide) {
 		let imagem = document.createElement('img');
 		imagem.setAttribute('src', `img/${cor}.png`);
-		imagem.setAttribute('width', `${tamanhocasa-4}px`);
-		imagem.setAttribute('height', `${tamanhocasa-4}px`);
+		imagem.setAttribute('width', `${tamanhoCelula-4}px`);
+		imagem.setAttribute('height', `${tamanhoCelula-4}px`);
 		imagem.setAttribute('draggable','true');
 		imagem.setAttribute('id', ide);
 		imagem.setAttribute('class', cor);
@@ -55,8 +58,8 @@ function criarpeca(cor,ide) {
 function dragstart(){
 	document.addEventListener("dragstart", function(event) {
 	  event.dataTransfer.setData("Text", event.target.id);
-	  localat = event.path[1].id;
-	  classe = (event.path[0].className);
+	  localAtual = event.path[1].id.toString();
+	  classe = event.path[0].className;
 	});
 }
 
@@ -78,14 +81,63 @@ function drop(){
 		const data = event.dataTransfer.getData("Text");
 		let c = event.path[0];
 		let t = c.childElementCount;
-		localfut = event.target.id;
-		if(t == '0' && localat != localfut){
-			if(classe == 'red' && localat > localfut && localat - localfut == 1|| classe == 'black' && localat < localfut && localfut - localat == 1) {
+		localFuturo = event.target.id.toString();
+		let ab = localAtual.substring(0,1);   
+		let cb = localAtual.substring(2,3);  
+		let df = localFuturo.substring(0,1);  
+		let ef = localFuturo.substring(2,3);  
+		
+		if(classe == 'black' && df < ab) {
+			localDecaptura = (parseInt(ab) - 1).toString() + "-" + (parseInt(cb) + 1).toString();
+		} else if(classe == 'black' && df > ab) {
+			localDecaptura = (parseInt(ab) + 1).toString() + "-" + (parseInt(cb) + 1).toString();
+		} else if(classe == 'red' && df > ab){
+			localDecaptura = (parseInt(ab) + 1).toString() + "-" + (parseInt(cb) - 1).toString();
+		} else if(classe == 'red' && df < ab){
+			localDecaptura = (parseInt(ab) - 1).toString() + "-" + (parseInt(cb) - 1).toString();
+		}
+		captura = document.getElementById(localDecaptura);
+		if(captura.childElementCount == '1'){
+			classeCapturada = captura.firstElementChild.className;
+			pecaCapturada = captura.firstElementChild;
+		}
+		if (t == '0' && cb != ef){
+			if (classe == 'red' && cb > ef && cb - ef == 1 && jogada % 2 == 0 || cb - ef == 2 && classeCapturada == "black" && jogada % 2 == 0 || classe == 'black' && cb < ef && cb - ef == -1 && jogada % 2 == 1 || cb - ef == -2 && classeCapturada == "red" && jogada % 2 == 1) {
 				event.target.appendChild(document.getElementById(data));
+				if (classe == 'red' && ef == '0' || classe == 'black' && ef == '7'){
+					pecaRainha(classe,ef,df);
+				}
+				jogada += 1;
+				if(cb - ef == 2 || cb - ef == -2) {
+					pecaCapturada.remove();
+					pecaCapturada = '';
+					lasseCapturada = '';
+				}
 			}
 		}
+		
 	}
 	});
+}
+function pecaRainha(classe, ef, df){
+	local = df + '-' + ef;
+	sub = document.getElementById(local);
+	pe = sub.firstElementChild;
+	addId = pe.id;
+	addClass = pe.className;
+	let imagem = document.createElement('img');
+	if (classe == "red") {
+		imagem.setAttribute('src', 'img/redKing.jpeg');
+	} else {
+		imagem.setAttribute('src', 'img/blackKing.jpeg');
+	}
+	imagem.setAttribute('width', `${tamanhoCelula-4}px`);
+	imagem.setAttribute('height', `${tamanhoCelula-4}px`);
+	imagem.setAttribute('draggable','true');
+	imagem.setAttribute('id', addId);
+	imagem.setAttribute('class', `${addClass}King`);
+	pe.remove();
+	sub.append(imagem);
 }
 dragstart();
 dragend();
